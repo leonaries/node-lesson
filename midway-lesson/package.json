@@ -10,10 +10,12 @@
     "@midwayjs/info": "^3.0.0",
     "@midwayjs/koa": "^3.0.0",
     "@midwayjs/logger": "^2.14.0",
+    "@midwayjs/redis": "^3.5.0",
     "@midwayjs/typeorm": "^3.5.0",
     "@midwayjs/validate": "^3.0.0",
     "mysql2": "^2.3.3",
-    "typeorm": "^0.3.9"
+    "typeorm": "^0.3.9",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@midwayjs/cli": "^1.2.90",
