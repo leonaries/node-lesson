@@ -7,6 +7,12 @@ export default {
   koa: {
     port: 8001,
   },
+  redis: {
+    client: {
+      port: 6379, // Redis port
+      host: "192.168.166.41", // Redis host
+    },
+  },
   typeorm: {
     dataSource: {
       default: {

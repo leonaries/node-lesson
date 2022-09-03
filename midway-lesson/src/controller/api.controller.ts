@@ -1,7 +1,7 @@
-import { Inject, Controller, Get, Query ,Post , Body } from '@midwayjs/decorator';
+import { Inject, Controller, Get ,Post , Body } from '@midwayjs/decorator';
 import { Context } from '@midwayjs/koa';
 import { UserService } from '../service/user.service';
-import { UserInfo } from '../interface'
+import { UserInfo , IUserOptions} from '../interface'
 @Controller('/api')
 export class APIController {
   @Inject()
@@ -10,14 +10,10 @@ export class APIController {
   @Inject()
   userService: UserService;
 
-  @Get('/get_user')
-  async getUser(@Query('uid') uid) {
-    const user = await this.userService.getUser({ uid });
-    return { success: true, message: 'OK', data: user , reqUid:uid };
-  }
-  @Post('/register_user')
-  async registerUser(@Body() user:UserInfo) {
-    return { success: true, message: '注册成功' ,data:user };
+  @Get('/getUserList')
+  async getUserList() {
+    const userList = await this.userService.getUserList();
+    return { success: true, message: 'OK', data: userList };
   }
   @Post('/login')
   async login(@Body() user:UserInfo) {
@@ -25,10 +21,25 @@ export class APIController {
     const { userName , password } = user
     const userInfo = await this.userService.login(userName,password)
     let status = userInfo ? true : false 
-    if(status) {
-      return { status: status, message: '登录成功' ,data:userInfo };
-    } else {
-      return { status: status, message: '登录失败' ,data:userInfo };
+    return {
+      success:status,
+      message:`登录${status?'成功':'失败'}`
     }
+  }
+
+  @Post('/deleteUser')
+  async deleteUser(@Body('userId') userId) {
+    const status = await this.userService.deleteUser(userId);
+    return {success: status , message: status? "删除成功":"删除失败" }
+  }
+  /**
+   * 用户注册
+   * @param userInfo 
+   * @returns 
+   */
+  @Post('/register')
+  async register(@Body() userInfo:IUserOptions) {
+    const status = await this.userService.register(userInfo)
+    return { success: status, message: '注册成功' };
   }
 }
